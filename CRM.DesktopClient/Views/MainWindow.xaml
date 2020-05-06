@@ -3,10 +3,34 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CRM.DesktopClient"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        xmlns:viewModels="clr-namespace:CRM.DesktopClient.ViewModels"
+         d:DataContext="{d:DesignInstance viewModels:MainViewModel}"
+        xmlns:v="clr-namespace:CRM.DesktopClient.Views"
         
+
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        >
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModels:CustomerDetailViewModel}">
+            <v:CustomerDetalView/>
+        </DataTemplate> 
+        <DataTemplate DataType="{x:Type viewModels:CustomerListViewModel}">
+            <v:CustomerListView/>
+        </DataTemplate>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Button Command ="{Binding ChangeCurrentCustomerViewCommand}" Content="{Binding ChangeCurrentCustomerViewCommandName}" Grid.Column="1" FontSize="22" ></Button>
+        <ContentControl Content="{Binding CurrentCustomerViewModel}" Grid.Column="1" Grid.Row="1" />
     </Grid>
 </Window>

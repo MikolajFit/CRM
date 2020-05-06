@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using CRM.DesktopClient.ViewModels;
+using CRM.DesktopClient.Views;
 
 namespace CRM.DesktopClient
 {
@@ -13,5 +15,16 @@ namespace CRM.DesktopClient
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            var window = new MainWindow
+            {
+                DataContext = new MainViewModel()
+            };
+
+            window.ShowDialog();
+        }
     }
 }
