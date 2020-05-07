@@ -7,58 +7,45 @@ namespace CRM.DesktopClient.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private string _changeCurrentCustomerViewCommandName;
-        private BaseViewModel _currentCustomerViewModel;
+        private BaseViewModel _currentPageViewModel;
 
         public MainViewModel()
         {
-            CustomerPageViewModels = new List<BaseViewModel>
+            PageViewModels = new List<BaseViewModel>
             {
-                new CustomerListViewModel(), new CustomerDetailViewModel()
+                new CustomersMainViewModel()
             };
-            CurrentCustomerViewModel = CustomerPageViewModels[0];
+            CurrentPageViewModel = PageViewModels[0];
         }
 
-        public List<BaseViewModel> CustomerPageViewModels { get; set; }
+        public List<BaseViewModel> PageViewModels { get; set; }
 
-        public BaseViewModel CurrentCustomerViewModel
+        public BaseViewModel CurrentPageViewModel
         {
-            get => _currentCustomerViewModel;
+            get => _currentPageViewModel;
             set
             {
-                if (_currentCustomerViewModel == value)
+                if (_currentPageViewModel == value)
                     return;
-                _currentCustomerViewModel = value;
-                OnPropertyChanged(nameof(CurrentCustomerViewModel));
+                _currentPageViewModel = value;
+                OnPropertyChanged(nameof(CurrentPageViewModel));
             }
         }
 
-        public ICommand ChangeCurrentCustomerViewCommand
+        public ICommand ChangeCurrentViewCommand
         {
-            get { return new BaseCommand(p => ChangeCustomerViewModel(), p => CanChangeCustomerView); }
+            get { return new BaseCommand(p => ChangeCustomerViewModel(), p => CanChangePageView); }
         }
 
-        public bool CanChangeCustomerView =>
-            (CurrentCustomerViewModel as CustomerListViewModel)?.SelectedCustomer != null ||
-            CurrentCustomerViewModel is CustomerDetailViewModel;
-
-        public string ChangeCurrentCustomerViewCommandName
-        {
-            get => _changeCurrentCustomerViewCommandName ?? (ChangeCurrentCustomerViewCommandName = "Details");
-            set
-            {
-                if (_changeCurrentCustomerViewCommandName == value)
-                    return;
-                _changeCurrentCustomerViewCommandName = value;
-                OnPropertyChanged(nameof(ChangeCurrentCustomerViewCommandName));
-            }
-        }
+        public bool CanChangePageView => true;
 
 
         private void ChangeCustomerViewModel()
         {
-            CurrentCustomerViewModel = CustomerPageViewModels.FirstOrDefault(vm => vm != CurrentCustomerViewModel);
-            ChangeCurrentCustomerViewCommandName = CurrentCustomerViewModel is CustomerListViewModel ? "Details" : "Go back";
+            var cur = (CustomersMainViewModel)CurrentPageViewModel;
+            cur?.ChangeToMainViewModel();
+            CurrentPageViewModel = PageViewModels.FirstOrDefault(vm => vm is CustomersMainViewModel);
+            
         }
     }
 }

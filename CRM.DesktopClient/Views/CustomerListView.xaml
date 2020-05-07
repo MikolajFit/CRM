@@ -1,15 +1,24 @@
-﻿<UserControl x:Class="CRM.DesktopClient.Views.CustomerListView"
+﻿ <UserControl x:Class="CRM.DesktopClient.Views.CustomerListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              d:DataContext="{d:DesignInstance viewModels:CustomerListViewModel}"
-             xmlns:viewModels="clr-namespace:CRM.DesktopClient.ViewModels"
+             xmlns:viewModels="clr-namespace:CRM.DesktopClient.ViewModels" 
+              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Height="Auto" Width="Auto">
     <StackPanel>
-            <ListView  ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" >
+        <ListView SelectionMode="Single" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction
+                         Command="{Binding DataContext.ChangeToDetailViewCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl},AncestorLevel=2}}"
+                            CommandParameter="{Binding SelectedCustomer}"
+                        ></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding CustomerId}" Width="Auto" />
