@@ -12,9 +12,9 @@ namespace CRM.DesktopClient.ViewModels
 
         public CustomersMainViewModel()
         {
-            _addCustomerViewModel = new AddCustomerViewModel();
             _customerDetailViewModel = new CustomerDetailViewModel();
             _customerListViewModel = new CustomerListViewModel();
+            _addCustomerViewModel = new AddCustomerViewModel(ChangeToMainViewModel,_customerListViewModel.AddCustomer);
             CurrentCustomerViewModel = _customerListViewModel;
         }
 

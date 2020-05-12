@@ -14,10 +14,11 @@ namespace CRM.DesktopClient.ViewModels
         private Customer _selectedCustomer;
         public CustomerListViewModel()
         {
+            _customers = GetCustomers();
         }
         public ObservableCollection<Customer> Customers
         {
-            get => GetCustomers();
+            get => _customers;
             set
             {
                 _customers = value;
@@ -54,6 +55,12 @@ namespace CRM.DesktopClient.ViewModels
                 LastName = "Fitowski",
             });
             return _customers;
+        }
+
+        public void AddCustomer(Customer customer)
+        {
+            Customers.Add(customer);
+            OnPropertyChanged(nameof(Customers));
         }
     }
 }
