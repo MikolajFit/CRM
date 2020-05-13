@@ -9,14 +9,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Height="Auto" Width="Auto">
-    <StackPanel>
-        <ListView SelectionMode="Single" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0"  Command="{Binding DataContext.AddCustomerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl},AncestorLevel=2}}" Content="Add" HorizontalAlignment="Right" Width="100" Height="40" Margin="10"/>
+        <ListView Grid.Row="1" SelectionMode="Single" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" Margin="10" >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction
                          Command="{Binding DataContext.ChangeToDetailViewCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl},AncestorLevel=2}}"
-                            CommandParameter="{Binding SelectedCustomer}"
-                        ></i:InvokeCommandAction>
+                            CommandParameter="{Binding SelectedCustomer}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <ListView.View>
@@ -27,5 +31,5 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        </StackPanel>
+        </Grid>
 </UserControl>

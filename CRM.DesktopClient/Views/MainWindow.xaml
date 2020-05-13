@@ -9,14 +9,14 @@
         
 
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow" Height="490" Width="860"
         >
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModels:CustomersMainViewModel}">
             <v:CustomersMainView/>
         </DataTemplate>
     </Window.Resources>
-    <StackPanel>
+    <StackPanel Margin="20">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -26,8 +26,8 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Command ="{Binding ChangeCurrentViewCommand}" Content="Customers" FontSize="30" Height="70" ></Button>
-            <Button Command ="{Binding ChangeCurrentViewCommand}" Content="Timetable" FontSize="30" Height="70" Grid.Column="1"></Button>
+            <Button Command ="{Binding ChangeCurrentViewCommand}" Content="Customers" FontSize="20" Height="50" Margin="10" Grid.Column="0" Padding="10" ></Button>
+            <Button Command ="{Binding ChangeCurrentViewCommand}" Content="Timetable" FontSize="20" Height="50" Grid.Column="1" Margin="10" Padding="10" ></Button>
         </Grid>
         <ContentControl Content="{Binding CurrentPageViewModel}" />
     </StackPanel>

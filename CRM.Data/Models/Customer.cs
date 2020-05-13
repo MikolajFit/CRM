@@ -1,18 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GalaSoft.MvvmLight;
 
 namespace CRM.Data.Models
 {
-    public class Customer
+    public class Customer : ObservableObject
     {
-        public Guid CustomerId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Mail { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Address { get; set; }
+        private string _address;
+        private Guid _customerId;
+        private string _firstName;
+        private string _lastName;
+        private string _mail;
+        private string _phoneNumber;
+
+        public Guid CustomerId
+        {
+            get => _customerId;
+            set { Set(() => CustomerId, ref _customerId, value); }
+        }
+
+        public string FirstName
+        {
+            get => _firstName;
+            set { Set(() => FirstName, ref _firstName, value); }
+        }
+
+        public string LastName
+        {
+            get => _lastName;
+            set { Set(() => LastName, ref _lastName, value); }
+        }
+
+        public string Mail
+        {
+            get => _mail;
+            set { Set(() => Mail, ref _mail, value); }
+        }
+
+        public string PhoneNumber
+        {
+            get => _phoneNumber;
+            set { Set(() => PhoneNumber, ref _phoneNumber, value); }
+        }
+
+
+        public string Address
+        {
+            get => _address;
+            set { Set(() => Address, ref _address, value); }
+        }
     }
 }

@@ -1,56 +1,57 @@
-﻿using System.Windows.Input;
-using CRM.DesktopClient.Commands;
+﻿using System;
+using CRM.Data.Models;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace CRM.DesktopClient.ViewModels
 {
-    public class CustomersMainViewModel : BaseViewModel
+    public class CustomersMainViewModel : ViewModelBase
     {
-        private BaseViewModel _currentCustomerViewModel;
         private readonly AddCustomerViewModel _addCustomerViewModel;
         private readonly CustomerDetailViewModel _customerDetailViewModel;
         private readonly CustomerListViewModel _customerListViewModel;
+        private ViewModelBase _currentCustomerViewModel;
 
         public CustomersMainViewModel()
         {
             _customerDetailViewModel = new CustomerDetailViewModel();
             _customerListViewModel = new CustomerListViewModel();
-            _addCustomerViewModel = new AddCustomerViewModel(ChangeToMainViewModel,_customerListViewModel.AddCustomer);
+            _addCustomerViewModel = new AddCustomerViewModel(ChangeToMainViewModel, _customerListViewModel.AddCustomer);
             CurrentCustomerViewModel = _customerListViewModel;
+            AddCustomerCommand = new RelayCommand(ChangeToAddCustomerView);
+            ChangeToDetailViewCommand = new RelayCommand<Customer>(ChangeToDetailView,CanChangeToDetailPageView());
         }
 
-        public ICommand ChangeToDetailViewCommand
+        public RelayCommand<Customer> ChangeToDetailViewCommand { get; }
+        public RelayCommand AddCustomerCommand { get; }
+        
+        private void Test(string s)
         {
-            get { return new BaseCommand(p => ChangeToDetailView(), p => CanChangeToDetailPageView()); }
+            throw new NotImplementedException();
         }
 
-        public BaseViewModel CurrentCustomerViewModel
+        public ViewModelBase CurrentCustomerViewModel
         {
             get => _currentCustomerViewModel;
-            set
-            {
-                _currentCustomerViewModel = value;
-                OnPropertyChanged(nameof(CurrentCustomerViewModel));
-            }
+            set { Set(() => CurrentCustomerViewModel, ref _currentCustomerViewModel, value); }
         }
 
-        public ICommand AddCustomerCommand
+
+        private bool CanChangeToDetailPageView()
         {
-            get { return new BaseCommand(p => ChangeToAddCustomerView(), p => true); }
+            return _customerListViewModel.SelectedCustomer != null;
         }
 
-
-        private bool CanChangeToDetailPageView() => _customerListViewModel.SelectedCustomer != null;
-
-        private void ChangeToDetailView()
+        private void ChangeToDetailView(Customer c)
         {
             CurrentCustomerViewModel = _customerDetailViewModel;
+            _customerDetailViewModel.SelectedCustomer = c;
         }
 
         public void ChangeToMainViewModel()
         {
             CurrentCustomerViewModel = _customerListViewModel;
         }
-
 
         private void ChangeToAddCustomerView()
         {

@@ -1,51 +1,43 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
-using CRM.DesktopClient.Commands;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace CRM.DesktopClient.ViewModels
 {
-    public class MainViewModel : BaseViewModel
+    public class MainViewModel : ViewModelBase
     {
-        private BaseViewModel _currentPageViewModel;
+        private ViewModelBase _currentPageViewModel;
 
         public MainViewModel()
         {
-            PageViewModels = new List<BaseViewModel>
+            PageViewModels = new List<ViewModelBase>
             {
                 new CustomersMainViewModel()
             };
             CurrentPageViewModel = PageViewModels[0];
+            ChangeCurrentViewCommand = new RelayCommand(ChangeCustomerViewModel, CanChangePageView);
         }
 
-        public List<BaseViewModel> PageViewModels { get; set; }
+        public List<ViewModelBase> PageViewModels { get; set; }
 
-        public BaseViewModel CurrentPageViewModel
+        public ViewModelBase CurrentPageViewModel
         {
             get => _currentPageViewModel;
-            set
-            {
-                if (_currentPageViewModel == value)
-                    return;
-                _currentPageViewModel = value;
-                OnPropertyChanged(nameof(CurrentPageViewModel));
-            }
+            set { Set(() => CurrentPageViewModel, ref _currentPageViewModel, value); }
         }
 
-        public ICommand ChangeCurrentViewCommand
-        {
-            get { return new BaseCommand(p => ChangeCustomerViewModel(), p => CanChangePageView); }
-        }
+        public RelayCommand ChangeCurrentViewCommand { get; }
+
 
         public bool CanChangePageView => true;
 
 
         private void ChangeCustomerViewModel()
         {
-            var cur = (CustomersMainViewModel)CurrentPageViewModel;
+            var cur = (CustomersMainViewModel) CurrentPageViewModel;
             cur?.ChangeToMainViewModel();
             CurrentPageViewModel = PageViewModels.FirstOrDefault(vm => vm is CustomersMainViewModel);
-            
         }
     }
 }

@@ -1,14 +1,16 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CRM.Data.Models;
+using GalaSoft.MvvmLight;
 
 namespace CRM.DesktopClient.ViewModels
 {
-    public class CustomerListViewModel:BaseViewModel
+    public class CustomerListViewModel:ViewModelBase
     {
         private ObservableCollection<Customer> _customers = null;
         private Customer _selectedCustomer;
@@ -19,21 +21,13 @@ namespace CRM.DesktopClient.ViewModels
         public ObservableCollection<Customer> Customers
         {
             get => _customers;
-            set
-            {
-                _customers = value;
-                OnPropertyChanged(nameof(Customers));
-            }
+            set { Set(() => Customers, ref _customers, value); }
         }
 
         public Customer SelectedCustomer
         {
             get => _selectedCustomer;
-            set
-            {
-                _selectedCustomer = value;
-                OnPropertyChanged(nameof(SelectedCustomer));
-            }
+            set { Set(() => SelectedCustomer, ref _selectedCustomer, value); }
 
         }
 
@@ -44,13 +38,13 @@ namespace CRM.DesktopClient.ViewModels
             _customers.Clear();
             _customers.Add(new Customer()
             {
-                CustomerId = new Guid(),
+                CustomerId = Guid.NewGuid(),
                 FirstName = "Mikolaj",
                 LastName = "Fitowski",
             });
             _customers.Add(new Customer()
             {
-                CustomerId = new Guid(),
+                CustomerId = Guid.NewGuid(),
                 FirstName = "Mikolaj",
                 LastName = "Fitowski",
             });
@@ -60,7 +54,7 @@ namespace CRM.DesktopClient.ViewModels
         public void AddCustomer(Customer customer)
         {
             Customers.Add(customer);
-            OnPropertyChanged(nameof(Customers));
+            RaisePropertyChanged(nameof(Customers));
         }
     }
 }

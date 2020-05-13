@@ -20,15 +20,6 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Button Command ="{Binding AddCustomerCommand}" Content="Add" HorizontalAlignment="Right" Width="100" />
-        <ContentControl Content="{Binding CurrentCustomerViewModel}"   Grid.Column="0" Grid.Row="1" Width="800" Height="400"/>
+        <ContentControl Content="{Binding CurrentCustomerViewModel}" Width="800" Height="400"/>
     </Grid>
 </UserControl>
