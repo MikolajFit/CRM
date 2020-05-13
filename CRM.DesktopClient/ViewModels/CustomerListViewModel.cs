@@ -53,7 +53,15 @@ namespace CRM.DesktopClient.ViewModels
 
         public void AddCustomer(Customer customer)
         {
-            Customers.Add(customer);
+            var cst = Customers.FirstOrDefault(c => c.CustomerId == customer.CustomerId);
+            if (cst == null)
+            {
+                Customers.Add(customer);
+            }
+            else
+            {
+                cst = customer;
+            }
             RaisePropertyChanged(nameof(Customers));
         }
     }

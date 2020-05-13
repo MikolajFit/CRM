@@ -7,7 +7,7 @@ namespace CRM.DesktopClient.ViewModels
 {
     public class CustomersMainViewModel : ViewModelBase
     {
-        private readonly AddCustomerViewModel _addCustomerViewModel;
+        private readonly CustomerViewModel _customerViewModel;
         private readonly CustomerDetailViewModel _customerDetailViewModel;
         private readonly CustomerListViewModel _customerListViewModel;
         private ViewModelBase _currentCustomerViewModel;
@@ -16,19 +16,15 @@ namespace CRM.DesktopClient.ViewModels
         {
             _customerDetailViewModel = new CustomerDetailViewModel();
             _customerListViewModel = new CustomerListViewModel();
-            _addCustomerViewModel = new AddCustomerViewModel(ChangeToMainViewModel, _customerListViewModel.AddCustomer);
+            _customerViewModel = new CustomerViewModel(ChangeToMainViewModel, _customerListViewModel.AddCustomer);
             CurrentCustomerViewModel = _customerListViewModel;
-            AddCustomerCommand = new RelayCommand(ChangeToAddCustomerView);
+            UpdateCustomerCommand = new RelayCommand<Customer>(ChangeToCustomerView);
             ChangeToDetailViewCommand = new RelayCommand<Customer>(ChangeToDetailView,CanChangeToDetailPageView());
         }
 
         public RelayCommand<Customer> ChangeToDetailViewCommand { get; }
-        public RelayCommand AddCustomerCommand { get; }
+        public RelayCommand<Customer> UpdateCustomerCommand { get; }
         
-        private void Test(string s)
-        {
-            throw new NotImplementedException();
-        }
 
         public ViewModelBase CurrentCustomerViewModel
         {
@@ -53,9 +49,19 @@ namespace CRM.DesktopClient.ViewModels
             CurrentCustomerViewModel = _customerListViewModel;
         }
 
-        private void ChangeToAddCustomerView()
+        private void ChangeToCustomerView(Customer customer)
         {
-            CurrentCustomerViewModel = _addCustomerViewModel;
+            CurrentCustomerViewModel = _customerViewModel;
+            if (customer != null)
+            {
+                _customerViewModel.CurrentMode = Mode.Edit;
+                _customerViewModel.SelectedCustomer = customer;
+            }
+            else
+            {
+                _customerViewModel.CurrentMode = Mode.Add;
+            }
+                
         }
     }
 }

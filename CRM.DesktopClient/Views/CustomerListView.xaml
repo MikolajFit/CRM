@@ -14,8 +14,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Button Grid.Row="0"  Command="{Binding DataContext.AddCustomerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl},AncestorLevel=2}}" Content="Add" HorizontalAlignment="Right" Width="100" Height="40" Margin="10"/>
-        <ListView Grid.Row="1" SelectionMode="Single" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" Margin="10" >
+        <Button Grid.Row="0"  Command="{Binding DataContext.UpdateCustomerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl},AncestorLevel=2}}" Content="Add" HorizontalAlignment="Right" Width="100" Height="40" Margin="10"/>
+            <ListView Grid.Row="1" SelectionMode="Single" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" Margin="10" >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction

@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="CRM.DesktopClient.Views.AddCustomerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:CRM.DesktopClient.Views"
+             d:DataContext="{d:DesignInstance viewModels:CustomerViewModel}"
+             xmlns:viewModels="clr-namespace:CRM.DesktopClient.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel>
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Margin="0,10,0,0">First Name:</Label>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" Text="{Binding SelectedCustomer.FirstName}" />
+            <Label Grid.Row="1" Grid.Column="0" Margin="0,10,0,0">Last Name:</Label>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="0,10,0,0" Text="{Binding SelectedCustomer.LastName}" />
+            <Label Grid.Row="2" Grid.Column="0" Margin="0,10,0,0">Mail:</Label>
+            <TextBox Grid.Row="2" Grid.Column="1" Margin="0,10,0,0" Text="{Binding SelectedCustomer.Mail}" />
+            <Label Grid.Row="3" Grid.Column="0" Margin="0,10,0,0">Phone number:</Label>
+            <TextBox Grid.Row="3" Grid.Column="1" Margin="0,10,0,0" Text="{Binding SelectedCustomer.PhoneNumber}" />
+            <Label Grid.Row="4" Grid.Column="0" Margin="0,10,0,0">Address:</Label>
+            <TextBox Grid.Row="4" Grid.Column="1" Margin="0,10,0,0" Text="{Binding SelectedCustomer.Address}" />
+        </Grid>
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" Content="Cancel"
+                    Command="{Binding CancelCommand}"
+                    HorizontalAlignment="Right" Margin="0,0,0,10" Width="100" Height="30" />
+            <Button
+                Grid.Column="2"
+                Command="{Binding UpdateCustomerCommand}"
+                HorizontalAlignment="Right" Margin="0,0,0,10" Width="100" Height="30">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentMode}">
+                                <DataTrigger.Value>
+                                    <viewModels:Mode>Add</viewModels:Mode>
+                                </DataTrigger.Value>
+                                <Setter Property="Content" Value="Add" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding CurrentMode}">
+                                <DataTrigger.Value>
+                                    <viewModels:Mode>Edit</viewModels:Mode>
+                                </DataTrigger.Value>
+                                <Setter Property="Content" Value="Save" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+        </Grid>
+    </StackPanel>
+
+</UserControl>
